@@ -133,7 +133,7 @@ public class DockerRemoveImage extends AbstractDockerRemoteApiTask {
 
     @Override
     public void runRemoteCommand() {
-        if (null != this.imageId.getOrNull()) {
+        if (this.imageId.getOrNull() != null) {
             getLogger().quiet("Removing image with ID '" + imageId.get() + ".");
             try (RemoveImageCmd removeImageCmd = getDockerClient().removeImageCmd(imageId.get())) {
                 if (Boolean.TRUE.equals(force.getOrNull())) {
@@ -145,7 +145,7 @@ public class DockerRemoveImage extends AbstractDockerRemoteApiTask {
             getLogger().warn("DockerRemoveImage: Id for remove image is empty.");
         }
 
-        if (null != this.imageIds.getOrNull() && !this.imageIds.get().isEmpty()) {
+        if (this.imageIds.getOrNull() != null && !this.imageIds.get().isEmpty()) {
             for (var id : this.imageIds.get()) {
                 getLogger().quiet("Removing image with ID '" + id + ".");
                 try (RemoveImageCmd removeImageCmd = getDockerClient().removeImageCmd(id)) {
