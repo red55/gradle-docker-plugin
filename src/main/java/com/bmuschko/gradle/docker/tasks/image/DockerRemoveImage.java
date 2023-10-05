@@ -16,11 +16,8 @@
 package com.bmuschko.gradle.docker.tasks.image;
 
 import com.bmuschko.gradle.docker.tasks.AbstractDockerRemoteApiTask;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.github.dockerjava.api.command.RemoveImageCmd;
 import groovy.lang.Closure;
-import org.gradle.api.Action;
-import org.gradle.api.internal.provider.PropertyFactory;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
@@ -28,8 +25,6 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.ProviderFactory;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
-import org.gradle.api.internal.provider.DefaultProperty;
-import org.gradle.internal.lazy.Lazy;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -39,7 +34,7 @@ public class DockerRemoveImage extends AbstractDockerRemoteApiTask {
     private final ObjectFactory objects = getProject().getObjects();
     private final Property<String> imageId = objects.property(String.class);
 
-    private final void issueDeprecationWarning(String propertyName) {
+    private void issueDeprecationWarning(String propertyName) {
         getLogger().warn("[DEPRECATED] DockerRemoveImage.{} is deprecated. Please use DockerRemoveImage.{}s.", propertyName, propertyName);
     }
 
@@ -126,10 +121,7 @@ public class DockerRemoveImage extends AbstractDockerRemoteApiTask {
     }
 
     public void targetImageIds(List<String> imageIds) {
-        Callable<List<String>> task = () -> {
-            return imageIds;
-        };
-        setTargetImageIds(task);
+        setTargetImageIds(() -> imageIds);
     }
 
     @Input
